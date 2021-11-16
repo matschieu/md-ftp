@@ -1,0 +1,10 @@
+com.github.matschieu.ftp.server.commands.CwdCommand
+com.github.matschieu.ftp.server.commands.PwdCommand
+com.github.matschieu.ftp.server.commands.UserCommand
+com.github.matschieu.ftp.server.commands.PassCommand
+com.github.matschieu.ftp.server.commands.ListCommand
+com.github.matschieu.ftp.server.commands.RetrCommand
+com.github.matschieu.ftp.server.commands.StorCommand
+com.github.matschieu.ftp.server.commands.QuitCommand
+com.github.matschieu.ftp.server.commands.CdupCommand
+com.github.matschieu.ftp.server.commands.HelpCommand
