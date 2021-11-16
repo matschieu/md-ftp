@@ -62,7 +62,9 @@ public class PassCommand implements FtpCommand {
 		st.nextToken();
 		final String cmdPwd = st.nextToken();
 
-		if (!cmdPwd.equals(config.getUsersAndPasswords().get(session.getCurrentUser()))) {
+		final String userPwd = config.getUserPassword(session.getCurrentUser());
+
+		if (!cmdPwd.equals(userPwd)) {
 			LOGGER.debug("Invalid password set for user {}", session.getCurrentUser());
 
 			session.getControlOut().println(FtpServerResponse.CANNOT_CONNECT.format());

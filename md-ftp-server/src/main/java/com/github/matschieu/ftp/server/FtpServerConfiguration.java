@@ -2,8 +2,8 @@ package com.github.matschieu.ftp.server;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class FtpServerConfiguration {
 	private static final String DEFAULT_USER_LOGIN = "root";
 	private static final String DEFAULT_USER_PWD = "1234";
 
-	private final Map<String, String> usersAndPasswords = new HashMap<>();
+	private final List<User> users = new ArrayList<>();
 	private String rootDirPath;
 	private int port;
 	private int timeout;
@@ -40,7 +40,7 @@ public class FtpServerConfiguration {
 		config.setPort(DEFAULT_SERVER_PORT);
 		config.setTimeout(DEFAULT_SERVER_TIMEOUT);
 		config.setRootDirPath(DEFAULT_ROOT_DIR_PATH);
-		config.addUserAndPassword(DEFAULT_USER_LOGIN, DEFAULT_USER_PWD);
+		config.registerUser(DEFAULT_USER_LOGIN, DEFAULT_USER_PWD);
 		return config;
 	}
 
@@ -78,19 +78,22 @@ public class FtpServerConfiguration {
 		config.setTimeout(Integer.parseInt(properties.getProperty("server.timeout", "" + DEFAULT_SERVER_TIMEOUT)));
 		config.setRootDirPath(properties.getProperty("root.dir.path", DEFAULT_ROOT_DIR_PATH));
 
+		boolean userDefined = false;
+
 		if (properties.containsKey("users.login") && properties.containsKey("users.pwd")) {
 			final String[] logins = properties.getProperty("users.login").split(SEPARATOR);
 			final String[] pwds = properties.getProperty("users.pwd").split(SEPARATOR);
 
 			if (logins.length == pwds.length) {
 				for(int i = 0; i < logins.length; i++) {
-					config.addUserAndPassword(logins[i], pwds[i]);
+					config.registerUser(logins[i], pwds[i]);
+					userDefined = true;
 				}
 			}
 		}
 
-		if (config.getUsersAndPasswords().isEmpty()) {
-			config.addUserAndPassword(DEFAULT_USER_LOGIN, DEFAULT_USER_PWD);
+		if (!userDefined) {
+			config.registerUser(DEFAULT_USER_LOGIN, DEFAULT_USER_PWD);
 		}
 
 		return config;
@@ -98,19 +101,30 @@ public class FtpServerConfiguration {
 
 	/**
 	 *
-	 * @param user
-	 * @param pwd
+	 * @param login
+	 * @return boolean
 	 */
-	public void addUserAndPassword(final String user, final String pwd) {
-		this.usersAndPasswords.put(user, pwd);
+	public boolean containsUser(final String login) {
+		return this.users.stream().filter(u -> u.getLogin().equals(login)).count() == 1;
 	}
 
 	/**
 	 *
-	 * @return list of users and their passwords
+	 * @param login
+	 * @return String
 	 */
-	public Map<String, String> getUsersAndPasswords() {
-		return this.usersAndPasswords;
+	public String getUserPassword(final String login) {
+		return this.users.stream().filter(u -> u.getLogin().equals(login)).findFirst().orElse(new User()).getPwd();
+	}
+
+	/**
+	 *
+	 * @param login
+	 * @param pwd
+	 * @return boolean
+	 */
+	public boolean registerUser(final String login, final String pwd) {
+		return login != null && !login.isBlank() ? this.users.add(new User(login, pwd)) : false;
 	}
 
 	/**

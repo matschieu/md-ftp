@@ -25,13 +25,11 @@ public class FtpServerConfigurationTest {
 		Assert.assertNotNull(config.getTimeout());
 		Assert.assertEquals(2000, config.getTimeout());
 
-		Assert.assertNotNull(config.getUsersAndPasswords());
-		Assert.assertEquals(2, config.getUsersAndPasswords().size());
+		Assert.assertTrue(config.containsUser("java1"));
+		Assert.assertTrue(config.containsUser("java2"));
 
-		Assert.assertEquals("java2", config.getUsersAndPasswords().keySet().toArray()[0]);
-		Assert.assertEquals("java1", config.getUsersAndPasswords().keySet().toArray()[1]);
-		Assert.assertEquals("P4$$w0rd", config.getUsersAndPasswords().values().toArray()[0]);
-		Assert.assertEquals("p4ssw0rd", config.getUsersAndPasswords().values().toArray()[1]);
+		Assert.assertEquals("p4ssw0rd", config.getUserPassword("java1"));
+		Assert.assertEquals("P4$$w0rd", config.getUserPassword("java2"));
 	}
 
 	@Test
@@ -49,11 +47,11 @@ public class FtpServerConfigurationTest {
 		Assert.assertNotNull(config.getTimeout());
 		Assert.assertEquals(3000, config.getTimeout());
 
-		Assert.assertNotNull(config.getUsersAndPasswords());
-		Assert.assertEquals(1, config.getUsersAndPasswords().size());
+		Assert.assertFalse(config.containsUser("java1"));
+		Assert.assertTrue(config.containsUser("root"));
 
-		Assert.assertEquals("root", config.getUsersAndPasswords().keySet().iterator().next());
-		Assert.assertEquals("1234", config.getUsersAndPasswords().values().iterator().next());
+		Assert.assertNull(config.getUserPassword("java1"));
+		Assert.assertEquals("1234", config.getUserPassword("root"));
 	}
 
 	@Test
@@ -71,11 +69,11 @@ public class FtpServerConfigurationTest {
 		Assert.assertNotNull(config.getTimeout());
 		Assert.assertEquals(3000, config.getTimeout());
 
-		Assert.assertNotNull(config.getUsersAndPasswords());
-		Assert.assertEquals(1, config.getUsersAndPasswords().size());
+		Assert.assertFalse(config.containsUser("java1"));
+		Assert.assertTrue(config.containsUser("root"));
 
-		Assert.assertEquals("root", config.getUsersAndPasswords().keySet().iterator().next());
-		Assert.assertEquals("1234", config.getUsersAndPasswords().values().iterator().next());
+		Assert.assertNull(config.getUserPassword("java1"));
+		Assert.assertEquals("1234", config.getUserPassword("root"));
 	}
 
 }

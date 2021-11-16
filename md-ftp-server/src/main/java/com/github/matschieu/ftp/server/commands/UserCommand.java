@@ -56,14 +56,11 @@ public class UserCommand implements FtpCommand {
 		final String cmdUser = st.nextToken();
 		String userPwd = null;
 
-		for(final String configUser : config.getUsersAndPasswords().keySet()) {
-			if (cmdUser.equals(configUser)) {
-				LOGGER.debug("User {} found in configuration", cmdUser);
+		if (config.containsUser(cmdUser)) {
+			LOGGER.debug("User {} found in configuration", cmdUser);
 
-				session.setCurrentUser(configUser);
-				userPwd = config.getUsersAndPasswords().get(configUser);
-				break;
-			}
+			session.setCurrentUser(cmdUser);
+			userPwd = config.getUserPassword(cmdUser);
 		}
 
 		if (session.getCurrentUser() == null) {
