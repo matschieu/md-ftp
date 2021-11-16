@@ -16,6 +16,7 @@
 	<modules>
 		<module>md-ftp-server</module>
 		<module>md-ftp-server-cli</module>
+		<module>md-ftp-client-cli</module>
 	</modules>
 
 	<dependencyManagement>

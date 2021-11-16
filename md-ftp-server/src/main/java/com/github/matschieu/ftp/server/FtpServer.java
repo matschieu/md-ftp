@@ -138,8 +138,10 @@ public class FtpServer {
 
 				final FtpCommand command = FtpCommandFactory.createCommand(cmd);
 
-				if (command != null && command.isValid(cmd)) {
+				if (command != null) {
 					command.execute(cmd, session, this.configuration);
+				} else {
+					session.getControlOut().println(FtpServerResponse.COMMAND_NOT_IMPLEMENTED.format(cmd));
 				}
 			}
 		}

@@ -37,7 +37,7 @@ public final class FtpCommandFactory {
 		}
 
 
-		LOGGER.info("Implementation for FTP command {} is {}", cmd, opt.orElse(null));
+		LOGGER.info("Implementation for FTP command '{}' is {}", cmd, opt.orElse(null));
 
 		return opt.orElse(null);
 	}
