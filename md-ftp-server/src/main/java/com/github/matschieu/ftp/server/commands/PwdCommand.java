@@ -45,7 +45,7 @@ public class PwdCommand implements FtpCommand {
 		if (!session.isUserConnected()) {
 			LOGGER.debug("User {} is not connected", session.getCurrentUser());
 
-			session.getControlOut().println(FtpServerResponse.NOT_CONNECTED);
+			session.getControlOut().println(FtpServerResponse.NOT_CONNECTED.format());
 			return false;
 		}
 

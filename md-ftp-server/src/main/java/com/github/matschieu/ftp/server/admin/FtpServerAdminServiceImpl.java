@@ -87,7 +87,7 @@ public class FtpServerAdminServiceImpl implements FtpserverAdminService {
 
 			LOGGER.info("Message sent");
 		} catch(final IOException e) {
-			LOGGER.error("Error while sending message: " + e.getMessage());
+			LOGGER.error("Error while sending message: " + e.getMessage(), e);
 		}
 	}
 
@@ -111,7 +111,7 @@ public class FtpServerAdminServiceImpl implements FtpserverAdminService {
 			LOGGER.info("Connection closed");
 		}
 		catch(final IOException e) {
-			LOGGER.error("Error while closing connection: " + e.getMessage());
+			LOGGER.error("Error while closing connection: " + e.getMessage(), e);
 		}
 	}
 

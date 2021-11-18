@@ -53,7 +53,7 @@ public class StorCommand implements FtpCommand {
 		if (!session.isUserConnected()) {
 			LOGGER.debug("User {} is not connected", session.getCurrentUser());
 
-			session.getControlOut().println(FtpServerResponse.NOT_CONNECTED);
+			session.getControlOut().println(FtpServerResponse.NOT_CONNECTED.format());
 			return false;
 		}
 
@@ -114,7 +114,7 @@ public class StorCommand implements FtpCommand {
 
 			session.getControlOut().println(FtpServerResponse.TRANSFER_COMPLETED.format());
 		} catch(final IOException e) {
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.error("Error during file transfer: " + e.getMessage(), e);
 
 			session.getControlOut().println(FtpServerResponse.TRANSFER_ABORTED.format());
 			return false;

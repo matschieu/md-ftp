@@ -95,7 +95,7 @@ public class RetrCommand implements FtpCommand {
 		final File f = new File(session.getCurrentDir() + File.separator + filepath);
 
 		if (session.getDataServerSocket() != null && session.getDataServerSocket().isClosed()) {
-			session.getControlOut().println(FtpServerResponse.CANNOT_OPEN_DATA_CONNECTION);
+			session.getControlOut().println(FtpServerResponse.CANNOT_OPEN_DATA_CONNECTION.format());
 			return false;
 		}
 
@@ -113,7 +113,7 @@ public class RetrCommand implements FtpCommand {
 			return false;
 		}
 
-		session.getControlOut().println(FtpServerResponse.OPEN_DATA_CONNECTION);
+		session.getControlOut().println(FtpServerResponse.OPEN_DATA_CONNECTION.format());
 
 		Socket s = null;
 		PrintStream ps = null;
@@ -148,7 +148,7 @@ public class RetrCommand implements FtpCommand {
 
 			session.getControlOut().println(FtpServerResponse.TRANSFER_COMPLETED.format());
 		} catch(final IOException e) {
-			LOGGER.error("Error during file transfer: " + e.getMessage());
+			LOGGER.error("Error during file transfer: " + e.getMessage(), e);
 
 			session.getControlOut().println(FtpServerResponse.TRANSFER_ABORTED.format());
 			return false;
